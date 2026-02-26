@@ -1,190 +1,127 @@
-# 🏆 CodeBoard — College Coding Leaderboard
+# <p align="center">🏆 CodeBoard — College Coding Leaderboard</p>
 
-A full-stack MERN (MongoDB, Express.js, React.js, Node.js) web application — a developer portfolio and leaderboard platform for college students, inspired by [Codolio](https://codolio.com).
+<p align="center">
+  <img src="https://img.shields.io/badge/Stack-MERN-8E44AD?style=for-the-badge&logo=mongodb" alt="MERN Stack" />
+  <img src="https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white" alt="Vite" />
+  <img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white" alt="Node.js" />
+  <img src="https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white" alt="Express.js" />
+  <img src="https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white" alt="MongoDB" />
+</p>
 
-![CodeBoard](https://img.shields.io/badge/Stack-MERN-green) ![Status](https://img.shields.io/badge/Status-In%20Development-orange)
+<p align="center">
+  <b>A comprehensive developer portfolio and leaderboard platform for college students, inspired by <a href="https://codolio.com">Codolio</a>.</b>
+</p>
+
+---
 
 ## ✨ Features
 
-### 🔐 Auth System
-- Student registration/login with JWT authentication
-- Profile setup with name, branch, year, college, and profile picture
+### 🔐 Secure Auth System
+- **JWT Authentication**: Secure student registration and login.
+- **Custom Profiles**: Set up your branch, graduation year, college, and profile picture.
 
-### 🔗 Platform Integration
-- Link usernames from **LeetCode**, **CodeChef**, **Codeforces**, **GeeksForGeeks**, and **HackerRank**
-- Auto-fetch stats (problems solved, contest rating, badges) using public APIs
+### 🔗 Multi-Platform Integration
+- Link your accounts from **LeetCode**, **CodeChef**, **Codeforces**, **GeeksForGeeks**, and **HackerRank**.
+- **Auto-Sync**: Fetch problems solved, contest ratings, and badges automatically.
 
-### 📊 Portfolio Dashboard
-- Aggregated stats: total problems solved across all platforms
-- Contest ratings for LeetCode, CodeChef, Codeforces
-- Topic-wise DSA analysis (bar charts using Recharts)
-- Difficulty breakdown (Easy/Medium/Hard donut chart)
-- Platform-wise problem counts
+### 📊 Dynamic Portfolio Dashboard
+- **Aggregated Stats**: See your progress across all platforms in one view.
+- **Visualization**: Beautiful bar charts (Recharts) for topic-wise DSA analysis.
+- **Breakdown**: Donut charts for difficulty levels (Easy/Medium/Hard).
 
-### 🏅 Leaderboard
-- College-wide leaderboard ranked by **C Score**
-- Sort by: C Score, Total Questions, LeetCode Rating, Codeforces Rating
-- Filter by branch and year
-- Search by name, username, or college
-- **Podium UI** for top 3 with medals
-- Personal rank strip with "MY RANK" badge
+### 🏅 Competitive Leaderboard
+- **Rankings**: Compete college-wide based on the unique **C Score**.
+- **Smart Filtering**: Sort by score, questions, or specific platform ratings.
+- **Podium UI**: Special display for the top 3 legends.
 
-### 👤 Public Profile
-- Shareable profile URL (`/profile/:username`)
-- Shows all stats, platforms, achievements, and social links
+---
 
-### ⚙️ Edit Profile
-- Update personal info, bio, social links
-- Upload profile picture
-- Toggle public/private profile
+## 🧮 The C Score Algorithm
 
-### 🔄 Auto Refresh
-- Scheduled stats refresh using `node-cron` (every 6 hours)
-- Manual refresh with 5-minute cooldown
+The **C Score** (MAX ~900) is a weighted metric designed to reflect true coding prowess:
 
-## 🧮 C Score Algorithm
+| Component | weight | max points |
+| :--- | :--- | :--- |
+| **Total Problems Solved** | 0.5 per problem | ~400 |
+| **LeetCode Hard** | 1.5 per problem | — |
+| **LeetCode Medium** | 0.5 per problem | — |
+| **LeetCode Easy** | 0.2 per problem | — |
+| **LeetCode Contest Rating** | 0.1 per rating point | ~100 |
+| **CodeChef Rating** | 0.05 per rating point | ~100 |
+| **Codeforces Rating** | 0.06 per rating point | ~100 |
+| **Contest Participation** | 2.0 per contest | ~100 |
 
-The **C Score** (out of ~900) is calculated as a weighted composite:
+---
 
-| Component | Weight | Max Points |
-|-----------|--------|-----------|
-| Total Problems Solved | 0.5/problem | ~400 |
-| LeetCode Easy | 0.2/problem | — |
-| LeetCode Medium | 0.5/problem | — |
-| LeetCode Hard | 1.5/problem | — |
-| LeetCode Contest Rating | 0.1/rating | ~100 |
-| CodeChef Rating | 0.05/rating | ~100 |
-| Codeforces Rating | 0.06/rating | ~100 |
-| Contest Participation | 2/contest | ~100 |
+## � Quick Start
 
-## 🛠️ Tech Stack
+Follow these steps to get the project running locally.
 
-| Layer | Technology |
-|-------|-----------|
-| Frontend | React (Vite) + Vanilla CSS |
-| Backend | Node.js + Express.js |
-| Database | MongoDB + Mongoose |
-| Auth | JWT (JSON Web Tokens) |
-| Charts | Recharts |
-| API Client | Axios |
-| Cron Jobs | node-cron |
-| Icons | react-icons |
-| Notifications | react-hot-toast |
+### 📋 Prerequisites
+- **Node.js**: Version 18 or higher.
+- **Database**: A local MongoDB instance or a [MongoDB Atlas](https://www.mongodb.com/atlas) URI.
 
-## 📁 Project Structure
-
-```
-codeboard/
-├── server/
-│   ├── server.js           # Express entry point
-│   ├── models/
-│   │   └── User.js         # Mongoose user schema + C Score logic
-│   ├── middleware/
-│   │   └── auth.js         # JWT authentication middleware
-│   ├── routes/
-│   │   ├── auth.js         # Register, Login, Me
-│   │   ├── user.js         # Profile, Platform linking, Refresh
-│   │   ├── leaderboard.js  # Rankings, Top 3, My Rank
-│   │   └── platform.js     # Platform verification
-│   ├── services/
-│   │   ├── platformFetcher.js  # API integrations for all platforms
-│   │   └── statsRefresher.js   # Cron job stat refresh service
-│   └── .env
-├── client/
-│   ├── src/
-│   │   ├── App.jsx
-│   │   ├── main.jsx
-│   │   ├── index.css       # Complete design system
-│   │   ├── context/
-│   │   │   └── AuthContext.jsx
-│   │   ├── components/
-│   │   │   ├── Layout.jsx
-│   │   │   └── Sidebar.jsx
-│   │   ├── pages/
-│   │   │   ├── Landing.jsx
-│   │   │   ├── Login.jsx
-│   │   │   ├── Register.jsx
-│   │   │   ├── Dashboard.jsx
-│   │   │   ├── Leaderboard.jsx
-│   │   │   ├── PublicProfile.jsx
-│   │   │   └── EditProfile.jsx
-│   │   └── utils/
-│   │       ├── api.js
-│   │       └── constants.js
-│   └── index.html
-└── README.md
-```
-
-## 🚀 Getting Started
-
-### Prerequisites
-- Node.js 18+
-- MongoDB (local or [MongoDB Atlas](https://www.mongodb.com/atlas))
-
-### 1. Clone the repo
+### 1️⃣ Clone and Install
 ```bash
-git clone <repo-url>
-cd codeboard
+git clone https://github.com/Amankr200/CodeBoard.git
+cd CodeBoard
 ```
 
-### 2. Setup Backend
+### 2️⃣ Start Development Servers
+Open two terminal windows to run the full stack:
+
+#### **Backend Server**
 ```bash
 cd server
 npm install
-
-# Create .env file (already provided with defaults)
-# Update MONGODB_URI if using Atlas
-
 npm run dev
 ```
 
-### 3. Setup Frontend
+#### **Frontend Client**
 ```bash
 cd client
 npm install
 npm run dev
 ```
 
-### 4. Open in browser
-- Frontend: [http://localhost:5173](http://localhost:5173)
-- Backend: [http://localhost:5000](http://localhost:5000)
+---
 
-## 📡 API Endpoints
+## �️ Tech Stack
 
-### Auth
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/api/auth/register` | Register new user |
-| POST | `/api/auth/login` | Login user |
-| GET | `/api/auth/me` | Get current user |
+| Layer | Technologies |
+| :--- | :--- |
+| **Frontend** | React (Vite), Vanilla CSS, Recharts |
+| **Backend** | Node.js, Express.js, node-cron |
+| **Database** | MongoDB, Mongoose |
+| **Auth** | JWT, bcryptjs |
+| **API** | Axios, Cheerio (for scraping) |
 
-### User
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/user/profile/:username` | Get public profile |
-| PUT | `/api/user/profile` | Update profile |
-| POST | `/api/user/platform` | Link platform |
-| DELETE | `/api/user/platform/:platform` | Remove platform |
-| POST | `/api/user/refresh` | Refresh all stats |
-| GET | `/api/user/dashboard` | Get dashboard data |
+---
 
-### Leaderboard
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/leaderboard` | Get leaderboard |
-| GET | `/api/leaderboard/top` | Get top 3 |
-| GET | `/api/leaderboard/myrank` | Get personal rank |
+## 📁 Repository Structure
 
-## 🎯 Bonus Features (Future)
-- [ ] Email notifications for rank changes
-- [ ] GitHub stats integration
-- [ ] Contest reminder alerts
-- [ ] Submission heatmap
-- [ ] Activity streak tracking
-- [ ] Compare two profiles side-by-side
+```text
+CodeBoard/
+├── client/              # Frontend (React + Vite)
+│   ├── src/pages/       # Dashboard, Leaderboard, Profiles
+│   └── index.css        # Core Design System
+├── server/              # Backend (Express + Node)
+│   ├── models/          # MongoDB Schemas
+│   ├── routes/          # API Endpoints
+│   └── services/        # Platform Fetchers & Cron Jobs
+└── .gitignore           # Excludes node_modules & .env
+```
 
-## 📄 License
-MIT
+---
 
-cd server; npm run dev
-cd client; npm run dev
+## 🎯 Roadmap
+- [ ] 📧 **Email Alerts**: Get notified when your rank changes.
+- [ ] 💻 **GitHub Sync**: Integrate your contribution graph.
+- [ ] 🔥 **Streaks**: Daily coding activity tracking.
+- [ ] ⚔️ **Duel Mode**: Compare profiles side-by-side.
+
+---
+
+<p align="center">
+  Developed with ❤️ by <a href="https://github.com/Amankr200">Amankr200</a>
+</p>
