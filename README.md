@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <b>A comprehensive developer portfolio and leaderboard platform for college students, inspired by <a href="https://codolio.com">Codolio</a>.</b>
+  <b>A comprehensive developer portfolio and leaderboard platform for college students.</b>
 </p>
 
 ---
