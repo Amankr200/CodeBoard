@@ -29,6 +29,11 @@ app.use('/api/leaderboard', leaderboardRoutes);
 app.use('/api/platform', platformRoutes);
 app.use('/api/contests', contestRoutes);
 
+// Root route
+app.get('/', (req, res) => {
+    res.send('CodeBoard API is running...');
+});
+
 // Health check
 app.get('/api/health', (req, res) => {
     res.json({ status: 'OK', timestamp: new Date().toISOString() });
