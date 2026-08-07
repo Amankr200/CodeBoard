@@ -1,4 +1,4 @@
-# <p align="center">🏆 CodeBoard — College Coding Leaderboard</p>
+# <p align="center">CodeBoard — College Coding Leaderboard</p>
 
 <p align="center">
   <img src="https://img.shields.io/badge/Stack-MERN-8E44AD?style=for-the-badge&logo=mongodb" alt="MERN Stack" />
@@ -14,29 +14,29 @@
 
 ---
 
-## ✨ Features
+## Features
 
-### 🔐 Secure Auth System
+### Secure Auth System
 - **JWT Authentication**: Secure student registration and login.
 - **Custom Profiles**: Set up your branch, graduation year, college, and profile picture.
 
-### 🔗 Multi-Platform Integration
+### Multi-Platform Integration
 - Link your accounts from **LeetCode**, **CodeChef**, **Codeforces**, **GeeksForGeeks**, and **HackerRank**.
 - **Auto-Sync**: Fetch problems solved, contest ratings, and badges automatically.
 
-### 📊 Dynamic Portfolio Dashboard
+### Dynamic Portfolio Dashboard
 - **Aggregated Stats**: See your progress across all platforms in one view.
 - **Visualization**: Beautiful bar charts (Recharts) for topic-wise DSA analysis.
 - **Breakdown**: Donut charts for difficulty levels (Easy/Medium/Hard).
 
-### 🏅 Competitive Leaderboard
+### Competitive Leaderboard
 - **Rankings**: Compete college-wide based on the unique **C Score**.
 - **Smart Filtering**: Sort by score, questions, or specific platform ratings.
 - **Podium UI**: Special display for the top 3 legends.
 
 ---
 
-## 🧮 The C Score Algorithm
+## The C Score Algorithm
 
 The **C Score** (MAX ~900) is a weighted metric designed to reflect true coding prowess:
 
@@ -57,17 +57,17 @@ The **C Score** (MAX ~900) is a weighted metric designed to reflect true coding 
 
 Follow these steps to get the project running locally.
 
-### 📋 Prerequisites
+### Prerequisites
 - **Node.js**: Version 18 or higher.
 - **Database**: A local MongoDB instance or a [MongoDB Atlas](https://www.mongodb.com/atlas) URI.
 
-### 1️⃣ Clone and Install
+### Clone and Install
 ```bash
 git clone https://github.com/Amankr200/CodeBoard.git
 cd CodeBoard
 ```
 
-### 2️⃣ Start Development Servers
+### Start Development Servers
 Open two terminal windows to run the full stack:
 
 #### **Backend Server**
@@ -98,7 +98,7 @@ npm run dev
 
 ---
 
-## 📁 Repository Structure
+## Repository Structure
 
 ```text
 CodeBoard/
@@ -114,11 +114,11 @@ CodeBoard/
 
 ---
 
-## 🎯 Roadmap
-- [ ] 📧 **Email Alerts**: Get notified when your rank changes.
-- [ ] 💻 **GitHub Sync**: Integrate your contribution graph.
-- [ ] 🔥 **Streaks**: Daily coding activity tracking.
-- [ ] ⚔️ **Duel Mode**: Compare profiles side-by-side.
+##  Roadmap
+- [ ] **Email Alerts**: Get notified when your rank changes.
+- [ ] **GitHub Sync**: Integrate your contribution graph.
+- [ ] **Streaks**: Daily coding activity tracking.
+- [ ] **Duel Mode**: Compare profiles side-by-side.
 
 ---
 
