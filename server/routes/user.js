@@ -241,6 +241,89 @@ router.post('/refresh', auth, async (req, res) => {
     }
 });
 
+// Generate personalized practice advice from the user's coding stats
+router.post('/coach', auth, async (req, res) => {
+    if (!process.env.GEMINI_API_KEY) {
+        return res.status(503).json({ message: 'AI coach is not configured. Add GEMINI_API_KEY to server/.env.' });
+    }
+
+    try {
+        const user = await User.findById(req.userId);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        const leetcode = user.platforms.leetcode.stats;
+        const gfg = user.platforms.gfg.stats;
+        const topicWise = typeof leetcode.topicWise?.toObject === 'function'
+            ? leetcode.topicWise.toObject()
+            : leetcode.topicWise || {};
+
+        const stats = {
+            totalProblemsSolved: user.totalProblemsSolved,
+            totalContests: user.totalContests,
+            leetcode: {
+                easySolved: leetcode.easySolved,
+                mediumSolved: leetcode.mediumSolved,
+                hardSolved: leetcode.hardSolved,
+                contestRating: leetcode.contestRating,
+                contestsAttended: leetcode.contestsAttended,
+                topicWise
+            },
+            gfg: {
+                totalSolved: gfg.totalSolved,
+                score: gfg.score
+            }
+        };
+
+        const { GoogleGenAI } = await import('@google/genai');
+        const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+        const modelCandidates = [...new Set([
+            process.env.GEMINI_MODEL || 'gemini-3.8-flash',
+            process.env.GEMINI_FALLBACK_MODEL || 'gemini-3.6-flash'
+        ])];
+        const generationRequest = {
+            contents: JSON.stringify(stats),
+            config: {
+                systemInstruction: 'You are a practical coding coach. Use only the supplied coding stats. Return exactly three numbered recommendations, each with one specific practice action and one brief reason. If the data is sparse, add one short note of no more than 15 words. Do not claim trends or improvement. Keep the whole response under 120 words and finish every sentence completely.',
+                maxOutputTokens: 2000,
+                thinkingConfig: { thinkingLevel: 'LOW' }
+            }
+        };
+
+        let response;
+        for (let index = 0; index < modelCandidates.length; index += 1) {
+            try {
+                response = await ai.models.generateContent({
+                    ...generationRequest,
+                    model: modelCandidates[index]
+                });
+                break;
+            } catch (err) {
+                if (err.status !== 503 || index === modelCandidates.length - 1) throw err;
+                console.warn(`Gemini model ${modelCandidates[index]} is busy; trying fallback.`);
+            }
+        }
+
+        const finishReason = response.candidates?.[0]?.finishReason;
+        if (!response.text || finishReason === 'MAX_TOKENS') {
+            return res.status(502).json({ message: 'The AI coach returned an incomplete response. Please try again.' });
+        }
+
+        res.json({ advice: response.text });
+    } catch (err) {
+        const status = Number(err.status || err.error?.code);
+        console.error('AI coach error:', status || 'unknown', err.message);
+        if (status === 503) {
+            return res.status(503).json({ message: 'Gemini is temporarily busy. Please wait a moment and retry.' });
+        }
+        if (status === 429) {
+            return res.status(429).json({ message: 'Gemini request limit reached. Please try again later.' });
+        }
+        res.status(502).json({ message: 'Could not generate coaching advice. Please try again.' });
+    }
+});
+
 // Get dashboard stats
 router.get('/dashboard', auth, async (req, res) => {
     try {

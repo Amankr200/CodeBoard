@@ -16,23 +16,37 @@ const { refreshAllUsersStats } = require('./services/statsRefresher');
 const app = express();
 
 // Middleware
+const allowedOrigins = new Set([process.env.CLIENT_URL || 'http://localhost:5173']);
+if (process.env.NODE_ENV !== 'production') {
+    allowedOrigins.add('http://localhost:5173');
+    allowedOrigins.add('http://localhost:5174');
+}
+
 app.use(cors({
-    origin: process.env.CLIENT_URL || 'http://localhost:5173',
+    origin: [...allowedOrigins],
     credentials: true
 }));
 app.use(express.json({ limit: '10mb' }));
 
 // Routes
+// Simple logger to see incoming requests
+app.use((req, res, next) => {
+    console.log(`${new Date().toISOString()} - ${req.method} ${req.url}`);
+    next();
+});
+
+// Root route
+app.get('/', (req, res) => {
+    res.send('CodeBoard API is running correctly.');
+});
+
 app.use('/api/auth', authRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/leaderboard', leaderboardRoutes);
 app.use('/api/platform', platformRoutes);
 app.use('/api/contests', contestRoutes);
 
-// Root route
-app.get('/', (req, res) => {
-    res.send('CodeBoard API is running...');
-});
+// API Routes
 
 // Health check
 app.get('/api/health', (req, res) => {
